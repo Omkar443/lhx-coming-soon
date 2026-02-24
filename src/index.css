@@ -4,8 +4,53 @@
 
 @layer base {
   body {
-    @apply bg-gray-950 text-white antialiased;
+    @apply bg-black text-green-500;
     margin: 0;
     padding: 0;
+    font-family: 'JetBrains Mono', 'Fira Code', monospace;
   }
+}
+
+@layer utilities {
+  .text-shadow-green {
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+  }
+  
+  .text-shadow-red {
+    text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  }
+  
+  .glow-green {
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+  }
+  
+  .glow-red {
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.3);
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+  
+  .animate-glitch {
+    animation: glitch 0.3s infinite;
+  }
+  
+  .animate-scan {
+    animation: scan 2s linear infinite;
+  }
+}
+
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
 }
