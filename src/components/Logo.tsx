@@ -32,7 +32,7 @@ const Logo: React.FC = () => {
         <span className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
           LeakHunterX
         </span>
-        <span className="text-xs text-amber-500/70 -mt-1">MVP • Launching Tonight</span>
+        <span className="text-xs text-amber-500/70 -mt-1">MVP • Launching Tomorrow</span>
       </div>
     </motion.div>
   );
