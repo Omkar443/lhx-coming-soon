@@ -16,10 +16,6 @@ const Logo: React.FC = () => {
           src="/logo2.png" 
           alt="LeakHunterX Logo" 
           className="h-10 w-auto relative z-10"
-          onError={(e) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
-          }}
         />
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full blur-xl opacity-50"
