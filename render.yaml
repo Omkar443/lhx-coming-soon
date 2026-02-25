@@ -1,14 +1,9 @@
 services:
   - type: web
     name: leakhunterx-coming-soon
-    runtime: node
-    repo: https://github.com/Omkar443/lhx-coming-soon
-    branch: main
+    runtime: static
     buildCommand: npm install && npm run build
-    startCommand: npm run preview
-    healthCheckPath: /
+    staticPublishPath: ./dist
     envVars:
       - key: NODE_VERSION
         value: 18
-      - key: NPM_VERSION
-        value: 9

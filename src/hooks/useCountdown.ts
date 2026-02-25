@@ -1,23 +1,23 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 interface TimeLeft {
-  days: number
-  hours: number
-  minutes: number
-  seconds: number
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
 }
 
-export const useCountdown = (targetDate: Date): TimeLeft => {
+export const useCountdown = (targetDate: string): TimeLeft => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
-  })
+  });
 
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const difference = targetDate.getTime() - new Date().getTime()
+      const difference = +new Date(targetDate) - +new Date();
       
       if (difference > 0) {
         setTimeLeft({
@@ -25,14 +25,15 @@ export const useCountdown = (targetDate: Date): TimeLeft => {
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60)
-        })
+        });
       }
-    }
+    };
 
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 1000)
-    return () => clearInterval(timer)
-  }, [targetDate])
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
 
-  return timeLeft
-}
+    return () => clearInterval(timer);
+  }, [targetDate]);
+
+  return timeLeft;
+};
