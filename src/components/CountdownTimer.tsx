@@ -50,26 +50,37 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: index * 0.1 }}
-          className="text-center"
+          className="text-center relative group"
         >
+          <motion.div
+            animate={{ 
+              scale: [1, 1.1, 1],
+              opacity: [0.3, 0.6, 0.3]
+            }}
+            transition={{ duration: 2, repeat: Infinity, delay: index * 0.5 }}
+            className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20 rounded-2xl blur-xl"
+          />
           <div className="relative">
-            <div className="text-4xl md:text-6xl font-mono font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
+            <motion.div
+              whileHover={{ scale: 1.1 }}
+              className="text-5xl md:text-7xl font-mono font-bold bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent"
+            >
               {unit.value.toString().padStart(2, '0')}
+            </motion.div>
+            <div className="text-xs md:text-sm text-amber-500/60 mt-2 tracking-wider font-semibold">
+              {unit.label}
             </div>
-            <div className="absolute -inset-4 bg-cyan-500/5 rounded-full blur-xl" />
-          </div>
-          <div className="text-xs md:text-sm text-gray-500 mt-2 tracking-wider">
-            {unit.label}
           </div>
         </motion.div>
       ))}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.6 }}
-        className="text-sm text-cyan-400 font-mono border border-cyan-500/30 px-4 py-2 rounded-full bg-cyan-500/10"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.8 }}
+        whileHover={{ scale: 1.05 }}
+        className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent font-bold font-mono border border-amber-500/30 px-6 py-3 rounded-full bg-amber-500/10 backdrop-blur-sm"
       >
-        Pro Version Launch
+        ⚡ Pro Version Launching ⚡
       </motion.div>
     </div>
   );
