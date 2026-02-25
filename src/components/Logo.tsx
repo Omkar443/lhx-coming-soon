@@ -16,7 +16,14 @@ const Logo: React.FC = () => {
           src="/logo2.png" 
           alt="LeakHunterX Logo" 
           className="h-10 w-auto relative z-10"
+          onError={(e) => {
+            console.error('Logo failed to load');
+            // Fallback to text logo if image fails
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
         />
+        {/* Glow effect behind logo */}
         <motion.div
           className="absolute inset-0 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full blur-xl opacity-50"
           animate={{
@@ -32,7 +39,7 @@ const Logo: React.FC = () => {
         <span className="text-xl font-bold bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent">
           LeakHunterX
         </span>
-        <span className="text-xs text-amber-500/70 -mt-1">MVP • Launching Tomorrow</span>
+        <span className="text-xs text-amber-500/70 -mt-1">Find secrets before they find you</span>
       </div>
     </motion.div>
   );
