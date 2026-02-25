@@ -11,8 +11,8 @@ function App() {
   // Calculate tomorrow's date at 6:30 PM
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
-  tomorrow.setHours(18, 30, 0, 0);
-  const targetDate = tomorrow.toISOString().slice(0, 19);
+  tomorrow.setHours(18, 30, 0, 0); // 6:30 PM
+  const targetDate = tomorrow.toISOString();
 
   const stats = [
     { value: '1,000+', label: 'Secrets Found', sub: 'In beta testing' },
