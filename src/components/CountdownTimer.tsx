@@ -14,14 +14,18 @@ interface CountdownTimerProps {
 
 const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [isTomorrow, setIsTomorrow] = useState(false);
 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const difference = +new Date(targetDate) - +new Date();
       
       if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        setIsTomorrow(days === 0);
+        
         setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          days: days,
           hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
           minutes: Math.floor((difference / 1000 / 60) % 60),
           seconds: Math.floor((difference / 1000) % 60)
@@ -80,7 +84,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
         whileHover={{ scale: 1.05 }}
         className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent font-bold font-mono border border-amber-500/30 px-6 py-3 rounded-full bg-amber-500/10 backdrop-blur-sm"
       >
-        ⏰ MVP Launch Today ⏰
+        {isTomorrow ? '⏰ Launching Tomorrow ⏰' : '⏰ MVP Launch Countdown ⏰'}
       </motion.div>
     </div>
   );

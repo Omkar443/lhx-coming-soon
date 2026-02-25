@@ -8,6 +8,12 @@ import Logo from './components/Logo';
 import './index.css';
 
 function App() {
+  // Calculate tomorrow's date at 6:30 PM
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  tomorrow.setHours(18, 30, 0, 0);
+  const targetDate = tomorrow.toISOString().slice(0, 19);
+
   const stats = [
     { value: '1,000+', label: 'Secrets Found', sub: 'In beta testing' },
     { value: '0.8%', label: 'False Positive Rate', sub: 'Industry leading' },
@@ -110,6 +116,13 @@ function App() {
     { name: 'Discord', icon: '🎮' }
   ];
 
+  const socialLinks = [
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/company/tantralogic-ai/', icon: '💼' },
+    { name: 'X_Global', url: 'https://x.com/Tantralogi35239', icon: '🐦' },
+    { name: 'Instagram', url: 'https://www.instagram.com/tantralogic_ai/', icon: '📷' },
+    { name: 'Facebook', url: 'https://www.facebook.com/profile.php?id=61585960048396', icon: '👥' }
+  ];
+
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
       <CursorEffect />
@@ -178,7 +191,7 @@ function App() {
             >
               <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2" />
               <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-semibold">
-                MVP Launching Tonight • 6:30 PM
+                🚀 MVP Launching Tomorrow • 6:30 PM
               </span>
             </motion.div>
 
@@ -197,11 +210,11 @@ function App() {
 
             {/* Countdown Timer */}
             <div className="mb-20">
-              <CountdownTimer targetDate="2026-02-25T18:30:00" />
+              <CountdownTimer targetDate={targetDate} />
             </div>
           </motion.div>
 
-          {/* Stats - Realistic numbers */}
+          {/* Stats */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -228,7 +241,7 @@ function App() {
         </div>
       </section>
 
-      {/* Features Section - All MVP */}
+      {/* Features Section */}
       <section id="features" className="relative py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -292,7 +305,7 @@ function App() {
         </div>
       </section>
 
-      {/* Roadmap - Fixed positioning */}
+      {/* Roadmap */}
       <section id="roadmap" className="relative py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
@@ -319,10 +332,10 @@ function App() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-500" />
               <div className="relative pt-2">
                 <div className="inline-block px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-xs font-bold text-white mb-4">
-                  🚀 Launching Tonight
+                  🚀 Launching Tomorrow
                 </div>
                 <h3 className="text-2xl font-bold mb-2">MVP Launch</h3>
-                <p className="text-amber-400/80 text-sm mb-4">February 25, 2026 • 6:30 PM</p>
+                <p className="text-amber-400/80 text-sm mb-4">Tomorrow • 6:30 PM</p>
                 <ul className="space-y-2 text-gray-400">
                   <li className="flex items-center">
                     <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mr-2" />
@@ -480,13 +493,18 @@ function App() {
               className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30"
             >
               <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2" />
-              <span className="text-amber-400">Launching tonight at 6:30 PM</span>
+              <span className="text-amber-400">Launching tomorrow at 6:30 PM</span>
             </motion.div>
+
+            {/* Email Support */}
+            <div className="mt-6 text-gray-500">
+              <span className="text-amber-400">📧</span> support@leakhunterx.com
+            </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer with Social Media */}
       <footer className="relative border-t border-amber-500/20 py-12 px-6">
         <div className="max-w-7xl mx-auto">
           <div className="grid md:grid-cols-4 gap-8 mb-8">
@@ -505,11 +523,10 @@ function App() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4 text-amber-400">Company</h4>
+              <h4 className="font-semibold mb-4 text-amber-400">Support</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-amber-400 transition">About</a></li>
-                <li><a href="#" className="hover:text-amber-400 transition">Blog</a></li>
-                <li><a href="#" className="hover:text-amber-400 transition">Contact</a></li>
+                <li><a href="mailto:support@leakhunterx.com" className="hover:text-amber-400 transition">support@leakhunterx.com</a></li>
+                <li className="text-gray-500">Response within 24h</li>
               </ul>
             </div>
             <div>
@@ -520,13 +537,45 @@ function App() {
               </ul>
             </div>
           </div>
+
+          {/* Social Media Links */}
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-8">
+            {socialLinks.map((social, index) => (
+              <motion.a
+                key={index}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="group relative px-6 py-3 rounded-lg border border-amber-500/30 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:border-amber-500/50 transition-all overflow-hidden"
+              >
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-r from-amber-500/20 to-orange-500/20"
+                  animate={{
+                    scale: [1, 1.5, 1],
+                    opacity: [0.3, 0.6, 0.3],
+                  }}
+                  transition={{ duration: 3, repeat: Infinity, delay: index * 0.2 }}
+                />
+                <span className="relative z-10 flex items-center space-x-2">
+                  <span className="text-xl">{social.icon}</span>
+                  <span className="text-sm font-semibold text-gray-300 group-hover:text-amber-400 transition">
+                    {social.name}
+                  </span>
+                </span>
+              </motion.a>
+            ))}
+          </div>
           
           <div className="flex flex-col md:flex-row items-center justify-between pt-8 border-t border-amber-500/20 text-sm text-gray-500">
             <div>© 2026 LeakHunterX. All rights reserved.</div>
-            <div className="mt-4 md:mt-0">
+            <div className="mt-4 md:mt-0 flex items-center space-x-4">
               <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-semibold">
-                MVP Launching Tonight • 6:30 PM
+                🚀 Launching Tomorrow • 6:30 PM
               </span>
+              <span className="text-amber-400/50">|</span>
+              <span className="text-amber-400">support@leakhunterx.com</span>
             </div>
           </div>
         </div>
