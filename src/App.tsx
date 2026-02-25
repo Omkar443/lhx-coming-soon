@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import CountdownTimer from './components/CountdownTimer';
 import CursorEffect from './components/CursorEffect';
@@ -8,18 +7,6 @@ import Logo from './components/Logo';
 import './index.css';
 
 function App() {
-  const { scrollYProgress } = useScroll();
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const backgroundY = useTransform(scrollYProgress, [0, 1], ['0%', '50%']);
-
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener('mousemove', handleMouseMove);
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, []);
-
   const stats = [
     { value: '1.25M+', label: 'Secrets Found', sub: 'Across all scans' },
     { value: '0.8%', label: 'False Positive Rate', sub: 'Industry lowest' },
@@ -106,31 +93,13 @@ function App() {
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
       <CursorEffect />
-      <ParticleField mousePosition={mousePosition} />
+      <ParticleField />
       
       {/* Animated background grid */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#00ffff10_1px,transparent_1px),linear-gradient(to_bottom,#00ffff10_1px,transparent_1px)] bg-[size:4rem_4rem]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_800px_at_50%_-100px,#00ffff20,transparent)]" />
       </div>
-
-      {/* Floating orbs */}
-      <motion.div
-        className="fixed top-20 left-20 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl"
-        animate={{
-          x: mousePosition.x * 0.05,
-          y: mousePosition.y * 0.05,
-        }}
-        transition={{ type: "spring", stiffness: 50, damping: 30 }}
-      />
-      <motion.div
-        className="fixed bottom-20 right-20 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
-        animate={{
-          x: mousePosition.x * -0.03,
-          y: mousePosition.y * -0.03,
-        }}
-        transition={{ type: "spring", stiffness: 50, damping: 30 }}
-      />
 
       {/* Navigation */}
       <nav className="relative z-50 px-6 py-4 border-b border-cyan-500/20 backdrop-blur-lg">

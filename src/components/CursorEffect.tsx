@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 
 const CursorEffect: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [cursorVariant, setCursorVariant] = useState('default');
 
   useEffect(() => {
     const mouseMove = (e: MouseEvent) => {
@@ -24,13 +23,6 @@ const CursorEffect: React.FC = () => {
     default: {
       x: mousePosition.x - 16,
       y: mousePosition.y - 16,
-      opacity: 1
-    },
-    hover: {
-      x: mousePosition.x - 32,
-      y: mousePosition.y - 32,
-      scale: 2,
-      opacity: 0.5
     }
   };
 
