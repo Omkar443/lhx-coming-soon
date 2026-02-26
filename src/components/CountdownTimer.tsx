@@ -20,16 +20,18 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
       
       // Set target to today at 6:30 PM (18:30)
       const target = new Date();
-      target.setHours(18, 30, 0, 0); // 18 hours, 30 minutes, 0 seconds, 0 milliseconds
+      target.setHours(18, 30, 0, 0); // 6:30 PM
       
-      const difference = target.getTime() - now.getTime();
+      const diffMs = target.getTime() - now.getTime();
       
-      if (difference > 0) {
-        // Calculate time until target correctly
-        const totalSeconds = Math.floor(difference / 1000);
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
+      if (diffMs > 0) {
+        // Convert to seconds
+        const diffSec = Math.floor(diffMs / 1000);
+        
+        // Calculate hours, minutes, seconds
+        const hours = Math.floor(diffSec / 3600);
+        const minutes = Math.floor((diffSec % 3600) / 60);
+        const seconds = diffSec % 60;
         
         setTimeLeft({
           hours: hours,
@@ -37,7 +39,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
           seconds: seconds
         });
       } else {
-        // If past 6:30 PM, show zeros
         setTimeLeft({
           hours: 0,
           minutes: 0,
@@ -115,11 +116,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
     );
   }
 
-  // Calculate time remaining in hours and minutes for display
-  const totalMinutesRemaining = (timeLeft.hours * 60) + timeLeft.minutes;
-  const displayHours = Math.floor(totalMinutesRemaining / 60);
-  const displayMinutes = totalMinutesRemaining % 60;
-
   return (
     <div className="flex flex-col items-center gap-8">
       {/* Current time indicator */}
@@ -174,7 +170,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
           🚀 Launching Today at 6:30 PM 🚀
         </div>
         <div className="text-xs text-amber-500/60 font-mono">
-          {displayHours}h {displayMinutes}m {timeLeft.seconds}s until launch
+          {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s until launch
         </div>
         <div className="text-xs text-amber-500/40 font-mono mt-1 flex gap-2">
           <span>Now: {formatCurrentTime()}</span>
