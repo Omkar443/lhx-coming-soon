@@ -9,41 +9,41 @@ interface TimeLeft {
 }
 
 interface CountdownTimerProps {
-  targetDate: string;
+  targetDate?: string; // Made optional since we're setting it internally
 }
 
-const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
+const CountdownTimer: React.FC<CountdownTimerProps> = () => {
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-  const [timeStatus, setTimeStatus] = useState<'today' | 'tomorrow' | 'launch'>('tomorrow');
 
   useEffect(() => {
     const calculateTimeLeft = () => {
       const now = new Date();
-      const target = new Date(targetDate);
+      
+      // Set target to today at 6:30 PM
+      const target = new Date();
+      target.setHours(18, 30, 0, 0); // 6:30 PM
+      
       const difference = target.getTime() - now.getTime();
       
       if (difference > 0) {
-        // Calculate total hours until target
-        const totalHours = Math.floor(difference / (1000 * 60 * 60));
-        const days = Math.floor(totalHours / 24);
-        const hours = totalHours % 24;
+        // Calculate time until target
+        const hours = Math.floor(difference / (1000 * 60 * 60));
         const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((difference % (1000 * 60)) / 1000);
         
-        // Determine status message based on time
-        if (days === 0 && hours < 24) {
-          if (hours < 12) {
-            setTimeStatus('today');
-          } else {
-            setTimeStatus('tomorrow');
-          }
-        }
-        
         setTimeLeft({
-          days: days,
+          days: 0,
           hours: hours,
           minutes: minutes,
           seconds: seconds
+        });
+      } else {
+        // If past 6:30 PM, show zeros
+        setTimeLeft({
+          days: 0,
+          hours: 0,
+          minutes: 0,
+          seconds: 0
         });
       }
     };
@@ -52,42 +52,82 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
     const timer = setInterval(calculateTimeLeft, 1000);
 
     return () => clearInterval(timer);
-  }, [targetDate]);
+  }, []);
 
   const timeUnits = [
-    { label: 'Days', value: timeLeft.days },
     { label: 'Hours', value: timeLeft.hours },
     { label: 'Minutes', value: timeLeft.minutes },
     { label: 'Seconds', value: timeLeft.seconds }
   ];
 
-  const getStatusMessage = () => {
-    if (timeLeft.days === 0 && timeLeft.hours < 24) {
-      if (timeLeft.hours < 12) {
-        return {
-          emoji: '🚀',
-          text: 'Launching Today',
-          subtext: `${timeLeft.hours}h ${timeLeft.minutes}m remaining`
-        };
-      } else {
-        return {
-          emoji: '⏰',
-          text: 'Launching Tomorrow',
-          subtext: `${timeLeft.hours}h ${timeLeft.minutes}m until midnight`
-        };
-      }
-    }
-    return {
-      emoji: '⏳',
-      text: 'MVP Launch Countdown',
-      subtext: `${timeLeft.days}d ${timeLeft.hours}h remaining`
-    };
+  // Check if launch time has passed
+  const isLaunched = () => {
+    const now = new Date();
+    const target = new Date();
+    target.setHours(18, 30, 0, 0);
+    return now > target;
   };
 
-  const status = getStatusMessage();
+  // Format current time for display
+  const formatCurrentTime = () => {
+    const now = new Date();
+    return now.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: 'numeric',
+      hour12: true 
+    });
+  };
+
+  if (isLaunched()) {
+    return (
+      <div className="flex flex-col items-center gap-8">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex flex-col items-center gap-4"
+        >
+          <div className="text-sm text-amber-400/60 font-mono mb-2">
+            Current Time: {formatCurrentTime()}
+          </div>
+          
+          <motion.div
+            animate={{ 
+              scale: [1, 1.1, 1],
+              rotate: [0, 5, -5, 0]
+            }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="text-8xl mb-4"
+          >
+            🚀
+          </motion.div>
+          
+          <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent">
+            We're Live!
+          </div>
+          
+          <div className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent font-bold font-mono border border-amber-500/30 px-6 py-3 rounded-full bg-amber-500/10 backdrop-blur-sm">
+            🎉 MVP Launched at 6:30 PM 🎉
+          </div>
+          
+          <div className="text-xs text-amber-500/40 font-mono mt-2">
+            Target: Today 6:30 PM
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-8">
+      {/* Current time indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        className="text-sm text-amber-400/60 font-mono mb-2"
+      >
+        Current Time: {formatCurrentTime()}
+      </motion.div>
+
       <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
         {timeUnits.map((unit, index) => (
           <motion.div
@@ -108,7 +148,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
             <div className="relative">
               <motion.div
                 whileHover={{ scale: 1.1 }}
-                className="text-6xl md:text-8xl font-mono font-bold bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent"
+                className="text-7xl md:text-9xl font-mono font-bold bg-gradient-to-r from-amber-400 via-orange-400 to-red-400 bg-clip-text text-transparent"
               >
                 {unit.value.toString().padStart(2, '0')}
               </motion.div>
@@ -128,13 +168,15 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({ targetDate }) => {
         className="flex flex-col items-center gap-2"
       >
         <div className="text-sm bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent font-bold font-mono border border-amber-500/30 px-6 py-3 rounded-full bg-amber-500/10 backdrop-blur-sm">
-          {status.emoji} {status.text} {status.emoji}
+          🚀 Launching Today at 6:30 PM 🚀
         </div>
         <div className="text-xs text-amber-500/60 font-mono">
-          {status.subtext}
+          {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s until launch
         </div>
-        <div className="text-xs text-amber-500/40 font-mono mt-1">
-          Target: Tomorrow 6:30 PM
+        <div className="text-xs text-amber-500/40 font-mono mt-1 flex gap-2">
+          <span>Now: 8:47 AM</span>
+          <span>•</span>
+          <span>Launch: 6:30 PM</span>
         </div>
       </motion.div>
     </div>

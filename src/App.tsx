@@ -191,7 +191,7 @@ function App() {
             >
               <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2" />
               <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-semibold">
-                🚀 MVP Launching Tomorrow • 6:30 PM
+                🚀 MVP Launching Today • 6:30 PM
               </span>
             </motion.div>
 
@@ -332,10 +332,10 @@ function App() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-amber-500 to-orange-500" />
               <div className="relative pt-2">
                 <div className="inline-block px-3 py-1 bg-gradient-to-r from-amber-500 to-orange-500 rounded-full text-xs font-bold text-white mb-4">
-                  🚀 Launching Tomorrow
+                  🚀 Launching Today
                 </div>
                 <h3 className="text-2xl font-bold mb-2">MVP Launch</h3>
-                <p className="text-amber-400/80 text-sm mb-4">Tomorrow • 6:30 PM</p>
+                <p className="text-amber-400/80 text-sm mb-4">Today • 6:30 PM</p>
                 <ul className="space-y-2 text-gray-400">
                   <li className="flex items-center">
                     <span className="w-1.5 h-1.5 bg-amber-500 rounded-full mr-2" />
@@ -493,7 +493,7 @@ function App() {
               className="inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30"
             >
               <span className="w-2 h-2 bg-amber-500 rounded-full animate-pulse mr-2" />
-              <span className="text-amber-400">Launching tomorrow at 6:30 PM</span>
+              <span className="text-amber-400">Launching Today at 6:30 PM</span>
             </motion.div>
 
             {/* Email Support */}
@@ -572,7 +572,7 @@ function App() {
             <div>© 2026 LeakHunterX. All rights reserved.</div>
             <div className="mt-4 md:mt-0 flex items-center space-x-4">
               <span className="bg-gradient-to-r from-amber-400 to-orange-400 bg-clip-text text-transparent font-semibold">
-                🚀 Launching Tomorrow • 6:30 PM
+                🚀 Launching Today • 6:30 PM
               </span>
               <span className="text-amber-400/50">|</span>
               <span className="text-amber-400">support@leakhunterx.com</span>
