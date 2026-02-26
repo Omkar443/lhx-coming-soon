@@ -2,18 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 interface TimeLeft {
-  days: number;
   hours: number;
   minutes: number;
   seconds: number;
 }
 
 interface CountdownTimerProps {
-  targetDate?: string; // Made optional since we're setting it internally
+  targetDate?: string;
 }
 
 const CountdownTimer: React.FC<CountdownTimerProps> = () => {
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>({ hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -26,13 +25,13 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
       const difference = target.getTime() - now.getTime();
       
       if (difference > 0) {
-        // Calculate time until target
-        const hours = Math.floor(difference / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        // Calculate time until target correctly
+        const totalSeconds = Math.floor(difference / 1000);
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
         
         setTimeLeft({
-          days: 0,
           hours: hours,
           minutes: minutes,
           seconds: seconds
@@ -40,7 +39,6 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
       } else {
         // If past 6:30 PM, show zeros
         setTimeLeft({
-          days: 0,
           hours: 0,
           minutes: 0,
           seconds: 0
@@ -55,9 +53,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
   }, []);
 
   const timeUnits = [
-    { label: 'Hours', value: timeLeft.hours },
-    { label: 'Minutes', value: timeLeft.minutes },
-    { label: 'Seconds', value: timeLeft.seconds }
+    { label: 'HOURS', value: timeLeft.hours },
+    { label: 'MINUTES', value: timeLeft.minutes },
+    { label: 'SECONDS', value: timeLeft.seconds }
   ];
 
   // Check if launch time has passed
@@ -174,9 +172,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
           {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s until launch
         </div>
         <div className="text-xs text-amber-500/40 font-mono mt-1 flex gap-2">
-          {/* <span>Now: 8:47 AM</span> */}
-          {/* <span>•</span> */}
-          {/* <span>Launch: 6:30 PM</span> */}
+          <span>Now: 12:55 PM</span>
+          <span>•</span>
+          <span>Launch: 6:30 PM</span>
         </div>
       </motion.div>
     </div>
