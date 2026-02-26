@@ -18,9 +18,9 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
     const calculateTimeLeft = () => {
       const now = new Date();
       
-      // Set target to today at 6:30 PM
+      // Set target to today at 6:30 PM (18:30)
       const target = new Date();
-      target.setHours(18, 30, 0, 0); // 6:30 PM
+      target.setHours(18, 30, 0, 0); // 18 hours, 30 minutes, 0 seconds, 0 milliseconds
       
       const difference = target.getTime() - now.getTime();
       
@@ -115,6 +115,11 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
     );
   }
 
+  // Calculate time remaining in hours and minutes for display
+  const totalMinutesRemaining = (timeLeft.hours * 60) + timeLeft.minutes;
+  const displayHours = Math.floor(totalMinutesRemaining / 60);
+  const displayMinutes = totalMinutesRemaining % 60;
+
   return (
     <div className="flex flex-col items-center gap-8">
       {/* Current time indicator */}
@@ -169,10 +174,10 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
           🚀 Launching Today at 6:30 PM 🚀
         </div>
         <div className="text-xs text-amber-500/60 font-mono">
-          {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s until launch
+          {displayHours}h {displayMinutes}m {timeLeft.seconds}s until launch
         </div>
         <div className="text-xs text-amber-500/40 font-mono mt-1 flex gap-2">
-          <span>Now: 12:55 PM</span>
+          <span>Now: {formatCurrentTime()}</span>
           <span>•</span>
           <span>Launch: 6:30 PM</span>
         </div>
