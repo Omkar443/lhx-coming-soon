@@ -175,7 +175,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = () => {
         </div>
         <div className="text-xs text-amber-500/40 font-mono mt-1 flex gap-2">
           {/* <span>Now: 8:47 AM</span> */}
-          <span>•</span>
+          {/* <span>•</span> */}
           {/* <span>Launch: 6:30 PM</span> */}
         </div>
       </motion.div>
